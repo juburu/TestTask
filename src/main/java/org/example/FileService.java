@@ -74,23 +74,6 @@ public class FileService {
         }
     }
 
-//    private static void processLine(String line) {
-//        if (line.isEmpty()) return;
-////        String integerRegexp = "-?\\d+";
-////        String floatRegexp = "-?\\d*\\.\\d+(?:[eE][-+]?\\d+)?";
-//        try {
-//            if (line.matches(integerRegexp)) {
-//                integers.add(Long.parseLong(line));
-//            } else if (line.matches(floatRegexp)) {
-//                floats.add(Double.parseDouble(line));
-//            } else {
-//                strings.add(line);
-//            }
-//        } catch (NumberFormatException e) {
-//            System.err.println("Ошибка при парсинге строки: " + line);
-//        }
-//    }
-
     public static void writeOutput() {
         if (canCreateOutputPath) {
             createOutputDirectory();
