@@ -53,19 +53,15 @@ public class ArgumentsManager {
                             sourceFiles.add(args[i]);
                         }
                         break;
-
                 }
             } catch (Exception e) {
                 System.err.println("Ошибка при обработке аргумента: " + args[i] + ". Аргумент будет проигнорирован");
             }
-
         }
         if (sourceFiles.isEmpty()) {
             System.err.println("Ошибка: не переданы файлы для обработки. Укажите хотя бы один файл");
         }
     }
-
-
 
     public static boolean isValidDirectoryPath(String path) {
         try {
