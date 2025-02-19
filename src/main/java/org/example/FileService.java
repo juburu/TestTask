@@ -2,8 +2,10 @@ package org.example;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.Path;
+//import java.nio.file.Paths;
+//import java.nio.file.Path;
+import java.nio.file.*;
+
 import java.util.*;
 
 public class FileService {
@@ -78,10 +80,13 @@ public class FileService {
         if (canCreateOutputPath) {
             createOutputDirectory();
         }
+
+        // Имена файлов
         String intFileName = "integers.txt";
         String floatFileName = "floats.txt";
         String strFileName = "strings.txt";
 
+        // Запись данных в файлы
         if (!integers.isEmpty()) {
             writeDataToFile(integers, intFileName);
         }
@@ -92,28 +97,40 @@ public class FileService {
             writeDataToFile(strings, strFileName);
         }
     }
-
     public static void createOutputDirectory() {
-        String rootPath = "./";
-        ArgumentsManager.outputPath = rootPath + ArgumentsManager.outputPath;
-        Path path = Path.of(ArgumentsManager.outputPath);
+        // Если outputPath не задан, используем корневую директорию
+        if (ArgumentsManager.outputPath == null || ArgumentsManager.outputPath.isEmpty()) {
+            ArgumentsManager.outputPath = "./";
+            return;
+        }
 
+        // Создаем полный путь, добавляя корневую директорию, если путь не абсолютный
+        Path path = Path.of(ArgumentsManager.outputPath);
+        if (!path.isAbsolute()) {
+            path = Path.of("./", ArgumentsManager.outputPath);
+        }
+
+        // Создаем все директории, если они не существуют
         if (Files.notExists(path)) {
             try {
-                Files.createDirectory(path);
+                Files.createDirectories(path); // Создает все недостающие директории
+                ArgumentsManager.outputPath = path.toString(); // Обновляем outputPath
             } catch (IOException e) {
                 System.err.println("Не удалось создать папку для вывода результатов! " + e.getMessage());
-                System.err.println("Файлы будут созданы в корневой папке проекта!");
+                System.err.println("Файлы будут созданы в корневой директории проекта!");
                 System.err.println();
-                ArgumentsManager.outputPath = rootPath;
+                ArgumentsManager.outputPath = "./"; // Возвращаемся к корневой директории
             }
         }
     }
 
     private static <T> void writeDataToFile(List<T> data, String fileName) {
-        String fullPath = ArgumentsManager.outputPath + File.separator + ArgumentsManager.outputPrefix + fileName;
+        // Формируем полный путь к файлу
+        Path fullPath = Path.of(ArgumentsManager.outputPath, ArgumentsManager.outputPrefix + fileName);
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fullPath, ArgumentsManager.addtoFile))) {
+        try (BufferedWriter writer = Files.newBufferedWriter(fullPath,
+                StandardOpenOption.CREATE,
+                ArgumentsManager.addtoFile ? StandardOpenOption.APPEND : StandardOpenOption.TRUNCATE_EXISTING)) {
             for (T item : data) {
                 writer.write(item.toString());
                 writer.newLine();
@@ -123,4 +140,54 @@ public class FileService {
             System.err.println();
         }
     }
+//
+//    public static void writeOutput() {
+//        if (canCreateOutputPath) {
+//            createOutputDirectory();
+//        }
+//        String intFileName = "integers.txt";
+//        String floatFileName = "floats.txt";
+//        String strFileName = "strings.txt";
+//
+//        if (!integers.isEmpty()) {
+//            writeDataToFile(integers, intFileName);
+//        }
+//        if (!floats.isEmpty()) {
+//            writeDataToFile(floats, floatFileName);
+//        }
+//        if (!strings.isEmpty()) {
+//            writeDataToFile(strings, strFileName);
+//        }
+//    }
+//
+//    public static void createOutputDirectory() {
+//        String rootPath = "./";
+//        ArgumentsManager.outputPath = rootPath + ArgumentsManager.outputPath;
+//        Path path = Path.of(ArgumentsManager.outputPath);
+//
+//        if (Files.notExists(path)) {
+//            try {
+//                Files.createDirectory(path);
+//            } catch (IOException e) {
+//                System.err.println("Не удалось создать папку для вывода результатов! " + e.getMessage());
+//                System.err.println("Файлы будут созданы в корневой директории проекта!");
+//                System.err.println();
+//                ArgumentsManager.outputPath = rootPath;
+//            }
+//        }
+//    }
+//
+//    private static <T> void writeDataToFile(List<T> data, String fileName) {
+//        String fullPath = ArgumentsManager.outputPath + File.separator + ArgumentsManager.outputPrefix + fileName;
+//
+//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fullPath, ArgumentsManager.addtoFile))) {
+//            for (T item : data) {
+//                writer.write(item.toString());
+//                writer.newLine();
+//            }
+//        } catch (IOException e) {
+//            System.err.println("Ошибка записи в файл " + fullPath);
+//            System.err.println();
+//        }
+//    }
 }
