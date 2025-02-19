@@ -114,7 +114,7 @@ public class FileService {
         }
     }
 
-    private static <T> void writeDataToFile(List<T> data, String fileName) {
+    public static <T> void writeDataToFile(List<T> data, String fileName) {
         Path fullPath = Path.of(ArgumentsManager.outputPath, ArgumentsManager.outputPrefix + fileName);
 
         try (BufferedWriter writer = Files.newBufferedWriter(fullPath,
