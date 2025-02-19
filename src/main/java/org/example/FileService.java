@@ -42,7 +42,7 @@ public class FileService {
         }
     }
 
-        private static void processLine(String line) {
+        public static void processLine(String line) {
         if (line.isEmpty()) return;
         try {
             if (isInteger(line)) {
@@ -122,7 +122,6 @@ public class FileService {
                 System.err.println("Не удалось создать папку для вывода результатов! " + e.getMessage());
                 System.err.println("Файлы будут созданы в корневой папке проекта!");
                 System.err.println();
-
                 ArgumentsManager.outputPath = rootPath;
             }
         }
