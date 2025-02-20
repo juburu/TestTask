@@ -28,7 +28,12 @@
 ```
 mvn clean package 
 ```
-- Для запуска приложения выполняем 
+- Для запуска утилиты выполняем 
 ```
 java -jar target/cft_test_v3-1.0-SNAPSHOT.jar [options] [input_files]
+```
+
+- Пример запуска утилиты
+```
+java -jar target/cft_test_v3-1.0-SNAPSHOT.jar -s -a -p sample- in1.txt in2.txt
 ```
