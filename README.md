@@ -35,5 +35,5 @@ java -jar target/cft_test_v3-1.0-SNAPSHOT.jar [options] [input_files]
 
 - Пример запуска утилиты
 ```
-java -jar target/cft_test_v3-1.0-SNAPSHOT.jar -s -a -p sample- in1.txt in2.txt
+java -jar target/cft_test_v3-1.0-SNAPSHOT.jar -s -a -p sample- -o output/path in1.txt in2.txt
 ```
